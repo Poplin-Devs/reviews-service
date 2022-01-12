@@ -5,7 +5,7 @@
   "main": "server.js",
   "author": "andrew carnero",
   "scripts": {
-    "start": "npx nodemon ./server/server.js"
+    "start": "npx nodemon ./server/index.js"
   },
   "dependencies": {
     "axios": "^0.24.0",
