@@ -1,0 +1,5 @@
+Step 1:
+Go to https://ondras.zarovi.cz/sql/demo/
+
+Step 2:
+Load from 'reviews-service-sdc-arc'
