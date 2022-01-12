@@ -1,0 +1,19 @@
+{
+  "name": "reviews-service",
+  "version": "1.0.0",
+  "description": "reviews API service for Atelier-optimization",
+  "main": "server.js",
+  "author": "andrew carnero",
+  "scripts": {
+    "start": "npx nodemon ./server/server.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.6.0",
+    "nodemon": "^2.0.15"
+  }
+}
