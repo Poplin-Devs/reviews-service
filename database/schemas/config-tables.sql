@@ -1,13 +1,8 @@
 -- Add Foreign Keys
 
-ALTER TABLE `reviews` ADD FOREIGN KEY (product_id) REFERENCES `product_chars` (`product_id`);
 ALTER TABLE `reviews` ADD FOREIGN KEY (reviewer_id) REFERENCES `users` (`user_id`);
-ALTER TABLE `product_chars` ADD FOREIGN KEY (fit_id) REFERENCES `char_values` (`characteristic_id`);
-ALTER TABLE `product_chars` ADD FOREIGN KEY (length_id) REFERENCES `char_values` (`characteristic_id`);
-ALTER TABLE `product_chars` ADD FOREIGN KEY (quality_id) REFERENCES `char_values` (`characteristic_id`);
-ALTER TABLE `product_chars` ADD FOREIGN KEY (comfort_id) REFERENCES `char_values` (`characteristic_id`);
-ALTER TABLE `product_chars` ADD FOREIGN KEY (width_id) REFERENCES `char_values` (`characteristic_id`);
-ALTER TABLE `product_chars` ADD FOREIGN KEY (size_id) REFERENCES `char_values` (`characteristic_id`);
+ALTER TABLE `char_reviews` ADD FOREIGN KEY (char_id) REFERENCES `chars` (`char_id`);
+ALTER TABLE `char_reviews` ADD FOREIGN KEY (review_id) REFERENCES `reviews` (`review_id`);
 ALTER TABLE `photos` ADD FOREIGN KEY (review_id) REFERENCES `reviews` (`review_id`);
 
 -- ---
