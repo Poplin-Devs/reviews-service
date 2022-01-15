@@ -12,16 +12,12 @@ db.connect((error) => {
   console.log('\n--> Connected to the reviews database!');
 
   const parseLines = async () => {
-    const fileStream = fs.createReadStream(input); //create stream
-
     const rl = readline.createInterface({ //build stream interface
-      input: fileStream,
+      input: fs.createReadStream(input),
       crlfDelay: Infinity
     });
 
-    let lineCounter = 0;
-    let linesProcessed = 0;
-
+    //Error handling
     const errorMessages = {
       a: 'One of the fields are missing from this line.',
       b: 'Value is not in the correct number range.',
@@ -37,38 +33,25 @@ db.connect((error) => {
       }
     };
 
-    let bufferCounter = 0;
-    let totalBuffers = 0;
+    //Initialize counts and caches
+    let lineCounter = 0;
+    let linesProcessed = 0;
+    let linesBuffered = 0;
     let bufferValues = [];
+    let totalBuffers = 0;
 
-    for await (const line of rl) { //parse lines
+    //Parse lines
+    for await (const line of rl) {
       lineCounter++;
-      bufferCounter++;
+      linesBuffered++;
 
-      if (bufferCounter === 5000) {
-        let sql = 'INSERT INTO photos (photo_id, review_id, url) VALUES ?';
-
-        db.query(sql, [bufferValues], (error) => {
-          if (error) {
-            console.log('\n -------------------------');
-            console.log(error);
-            console.log(splitLine);
-          }
-        });
-
-        totalBuffers++;
-        bufferCounter = 0;
-        bufferValues = [];
-      }
-
-      //validate/sanitize data and push to values array
       const splitLine = line.split(',');
       let [ id, reviewId, url ] = splitLine;
 
-      if (id.includes('id')) { continue; }
+      if (id.includes('id')) { continue; } //ignore header line
 
+      //Validate/sanitize data
       let errorsExist = false;
-
       if (!splitLine.length === 3) {
         errorsExist = true;
         buildError(lineCounter, errorMessages.a);
@@ -90,19 +73,40 @@ db.connect((error) => {
         continue;
       }
 
+      //Push valid data to bufferValues array
       if (!errorsExist) {
         bufferValues.push(splitLine);
       }
+
+      //Once buffer is full, make a single query
+      if (linesBuffered === 5000) {
+        console.log('--> making insert query!');
+        let sql = 'INSERT INTO photos (photo_id, review_id, url) VALUES ?';
+
+        db.query(sql, [bufferValues], (error) => {
+          if (error) {
+            console.log('\n -------------------------');
+            console.log(error);
+            console.log(splitLine);
+          }
+        });
+
+        totalBuffers++;
+        linesBuffered = 0;
+        bufferValues = [];
+      }
     }
 
+    //Build error messages
     const errorCount = Object.keys(errorLog).length;
+
     if (errorCount > 0) {
-      console.log(`${errorCount} errors found:`);
+      console.log(`${errorCount} data validation errors found:`);
       console.log(errorLog);
     } else {
-      console.log('--> No errors found!');
+      console.log('--> No data validation errors found!');
     }
-    console.log(`\n \x1b[36m" :::::::: Load photos process complete! Lines processed: ${totalBuffers} / ${lineCounter} ::::::::`);
+    console.log(`\n \x1b[36m" ::: Load photos process complete! Total buffers: ${totalBuffers} | Lines processed: ${lineCounter} :::`);
   };
 
   parseLines();
