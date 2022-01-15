@@ -3,5 +3,6 @@ package-lock.json
 
 server/config.js
 
-ETL/data/
-ETL/results/
+database/ETL/data/
+database/ETL/results/
+database/ETC/config.js
