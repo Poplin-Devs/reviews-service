@@ -4,8 +4,8 @@ const fs = require('fs');
 const readline = require('readline');
 const db = require('../index.js').connection;
 
-const filename = 's-reviews_photos.csv';
-const input = path.join(__dirname, `./data/${filename}`);
+const filename = 'reviews_photos-1.csv';
+const input = path.join(__dirname, `./data/results/${filename}`);
 
 db.connect((error) => {
   if (error) { throw err; }
@@ -37,12 +37,35 @@ db.connect((error) => {
       }
     };
 
+    let bufferCounter = 0;
+    let totalBuffers = 0;
+    let bufferValues = [];
+
     for await (const line of rl) { //parse lines
+      lineCounter++;
+      bufferCounter++;
+
+      if (bufferCounter === 5000) {
+        let sql = 'INSERT INTO photos (photo_id, review_id, url) VALUES ?';
+
+        db.query(sql, [bufferValues], (error) => {
+          if (error) {
+            console.log('\n -------------------------');
+            console.log(error);
+            console.log(splitLine);
+          }
+        });
+
+        totalBuffers++;
+        bufferCounter = 0;
+        bufferValues = [];
+      }
+
+      //validate/sanitize data and push to values array
       const splitLine = line.split(',');
       let [ id, reviewId, url ] = splitLine;
 
       if (id.includes('id')) { continue; }
-      lineCounter++;
 
       let errorsExist = false;
 
@@ -68,17 +91,7 @@ db.connect((error) => {
       }
 
       if (!errorsExist) {
-        let sql = 'INSERT INTO photos (photo_id, review_id, url) VALUES (?)';
-        sql = mysql.format(sql, [splitLine]);
-
-        db.query(sql, (error) => {
-          if (error) {
-            console.log('\n -------------------------');
-            console.log(error);
-            console.log(splitLine);
-          }
-          linesProcessed++;
-        });
+        bufferValues.push(splitLine);
       }
     }
 
@@ -89,7 +102,7 @@ db.connect((error) => {
     } else {
       console.log('--> No errors found!');
     }
-    console.log(`\n \x1b[36m" :::::::: Load photos process complete! Lines processed: ${linesProcessed} / ${lineCounter} ::::::::`);
+    console.log(`\n \x1b[36m" :::::::: Load photos process complete! Lines processed: ${totalBuffers} / ${lineCounter} ::::::::`);
   };
 
   parseLines();
