@@ -147,4 +147,5 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
 
     parseLines();
   });
+
 });
