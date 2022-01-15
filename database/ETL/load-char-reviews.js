@@ -5,8 +5,8 @@ const readline = require('readline');
 const exec = require('child_process').exec;
 const db = require('../index.js').connection;
 
-const filename = 'characteristics.csv';
-const input = path.join(__dirname, `./data/${filename}`);
+const filename = 'char_reviews-1.csv';
+const input = path.join(__dirname, `./data/results/${filename}`);
 
 exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
   if (error) { throw error; }
@@ -55,13 +55,13 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
         linesInChunk++;
 
         const splitLine = line.split(',');
-        let [ id, productId, name ] = splitLine;
+        let [ id, charId, reviewId, value ] = splitLine;
 
         if (id.includes('id')) { continue; } //ignore header line
 
         //Validate/sanitize data
         let errorsExist = false;
-        if (!splitLine.length === 3) {
+        if (!splitLine.length === 4) {
           errorsExist = true;
           buildError(lineCounter, errorMessages.a);
         }
@@ -73,29 +73,40 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
           errorsExist = true;
           buildError(lineCounter, 'id: ' + errorMessages.b);
         }
-        if (productId < 0 || productId > 5800000 ) {
+        if (charId < 0 || charId > 5800000 ) {
           errorsExist = true;
-          buildError(lineCounter, 'product_id: ' + errorMessages.b);
+          buildError(lineCounter, 'char_id: ' + errorMessages.b);
         }
-        if (isNaN(productId)) {
+        if (isNaN(charId)) {
           errorsExist = true;
-          buildError(lineCounter, 'product_id: ' + errorMessages.b);
+          buildError(lineCounter, 'char_id: ' + errorMessages.b);
         }
-
-        if (name.length > 7) {
+        if (reviewId < 0 || reviewId > 5800000 ) {
           errorsExist = true;
-          buildError(lineCounter, `name: '${name}' - ${errorMessages.c}`);
+          buildError(lineCounter, 'review_id: ' + errorMessages.b);
+        }
+        if (isNaN(reviewId)) {
+          errorsExist = true;
+          buildError(lineCounter, 'review_id: ' + errorMessages.b);
+        }
+        if (value < 0 || value > 5 ) {
+          errorsExist = true;
+          buildError(lineCounter, 'value: ' + errorMessages.b);
+        }
+        if (isNaN(value)) {
+          errorsExist = true;
+          buildError(lineCounter, 'value: ' + errorMessages.b);
         }
 
         //Continue looping if there is at least one error
         if (errorsExist) { continue; }
 
-        //Otherwise, valid data to chunkValues array
+        //Otherwise, push valid data chunkValues array
         chunkValues.push(splitLine);
 
         //Once chunk is full, make a single query
         if (linesInChunk === chunkSize) {
-          let sql = 'INSERT INTO chars (char_id, product_id, name) VALUES ?';
+          let sql = 'INSERT INTO char_reviews (id, char_id, review_id, value) VALUES ?';
 
           db.query(sql, [chunkValues], (error) => {
             if (error) {
@@ -114,7 +125,7 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
         //Handle any remaining lines beyond last full chunk
         if (totalChunks >= maxFullChunks &&
           linesInChunk === totalLines + 1 - (maxFullChunks * chunkSize) ) {
-          let sql = 'INSERT INTO chars (char_id, product_id, name) VALUES ?';
+          let sql = 'INSERT INTO char_reviews (id, char_id, review_id, value) VALUES ?';
 
           db.query(sql, [chunkValues], (error) => {
             if (error) {

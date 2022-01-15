@@ -4,11 +4,11 @@
 # -----------------------
 
 #Enter the source file
-INPUT=data/reviews_photos.csv
+INPUT=data/characteristic_reviews.csv
 [ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 99; }
 
 #Enter the Range
-RANGE=500000
+RANGE=10000000
 
 START=2
 END=$[RANGE+1]
@@ -18,7 +18,7 @@ EXT=1
 while [ $END -lt $[$TOTAL_LINES + $RANGE] ]
 do
 echo $START, $END, $EXT, $TOTAL_LINES
-sed -n "$START,$END p;$END q" $INPUT > data/results/reviews_photos-$EXT.csv
+sed -n "$START,$END p;$END q" $INPUT > data/results/char_reviews-$EXT.csv
 START=$[$START+$RANGE]
 END=$[$START+$RANGE-1]
 EXT=$[$EXT+1]
