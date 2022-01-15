@@ -5,7 +5,7 @@ const readline = require('readline');
 const exec = require('child_process').exec;
 const db = require('../index.js').connection;
 
-const filename = 'reviews_photos.csv';
+const filename = 's-characteristic_reviews.csv';
 const input = path.join(__dirname, `./data/${filename}`);
 
 exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
@@ -55,7 +55,7 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
         linesInChunk++;
 
         const splitLine = line.split(',');
-        let [ id, reviewId, url ] = splitLine;
+        let [ id, charId, reviewId, value ] = splitLine;
 
         if (id.includes('id')) { continue; } //ignore header line
 
@@ -89,15 +89,15 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
 
         //Once chunk is full, make a single query
         if (linesInChunk === chunkSize) {
-          let sql = 'INSERT INTO photos (photo_id, review_id, url) VALUES ?';
+          let sql = 'INSERT INTO char_reviews (id, char_id, review_id, value) VALUES ?';
 
-          db.query(sql, [chunkValues], (error) => {
-            if (error) {
-              console.log('\n -------------------------');
-              console.log(error);
-              console.log(splitLine);
-            }
-          });
+          // db.query(sql, [chunkValues], (error) => {
+          //   if (error) {
+          //     console.log('\n -------------------------');
+          //     console.log(error);
+          //     console.log(splitLine);
+          //   }
+          // });
 
           totalChunks++;
           totalLinesChunked += linesInChunk;
@@ -107,15 +107,15 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
 
         if (totalChunks >= maxFullChunks &&
           linesInChunk === totalLines + 1 - (maxFullChunks * chunkSize) ) {
-          let sql = 'INSERT INTO photos (photo_id, review_id, url) VALUES ?';
+          let sql = 'INSERT INTO char_reviews (id, char_id, review_id, value) VALUES ?';
 
-          db.query(sql, [chunkValues], (error) => {
-            if (error) {
-              console.log('\n -------------------------');
-              console.log(error);
-              console.log(splitLine);
-            }
-          });
+          // db.query(sql, [chunkValues], (error) => {
+          //   if (error) {
+          //     console.log('\n -------------------------');
+          //     console.log(error);
+          //     console.log(splitLine);
+          //   }
+          // });
 
           totalChunks++;
           totalLinesChunked += linesInChunk;
@@ -133,7 +133,7 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
       } else {
         console.log('--> No data validation errors found!');
       }
-      console.log(`\n \x1b[36m" ::: Load photos process complete! :::
+      console.log(`\n \x1b[36m" ::: Load characteristic_reviews process complete! :::
         Total chunks: ${totalChunks}
         Lines processed (lines chunked/total lines): ${totalLinesChunked} / ${lineCounter}`);
     };
