@@ -8,15 +8,15 @@ The reviews service is designed using a an Express server and a mySQL database.
 
 [reviews API](#reviews-api) |
 [data model](#data-model) |
-[statistics](#statistics)
+[ETL process](#etl-process)
 
 </div>
 
-# reviews API
+# **reviews API**
 
 API endpoints here
 
-# data model
+# **data model**
 
 current version: 2.0, 1/11/22
 
@@ -27,5 +27,13 @@ Version History
 
 [version1]: ./data_models/sql-modelv1.png
 
-# statistics
+# **ETL Process**
+
+After building the new back end architecture, existing data had to be migrated over.
+
+A custom-built extract, transform, load process was built first using only Bash scripts and then additionally using node. The process was unacceptably slow at the beginning, but after a few iterations and optimization, an acceptable ingestion rate was achieved.
+
+### **Version 1: Bash**
+
+- Bash was used to extract, validate, and insert data into the mySQL database.
 

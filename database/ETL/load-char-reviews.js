@@ -5,7 +5,7 @@ const readline = require('readline');
 const exec = require('child_process').exec;
 const db = require('../index.js').connection;
 
-const filename = 'char_reviews-1.csv';
+const filename = 'char_reviews-2.csv';
 const input = path.join(__dirname, `./data/results/${filename}`);
 
 exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
@@ -65,7 +65,7 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
           errorsExist = true;
           buildError(lineCounter, errorMessages.a);
         }
-        if (id < 0 || id > 5800000 ) {
+        if (id < 0 || id > 20000000 ) {
           errorsExist = true;
           buildError(lineCounter, 'id: ' + errorMessages.b);
         }
@@ -73,7 +73,7 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
           errorsExist = true;
           buildError(lineCounter, 'id: ' + errorMessages.b);
         }
-        if (charId < 0 || charId > 5800000 ) {
+        if (charId < 0 || charId > 5000000 ) {
           errorsExist = true;
           buildError(lineCounter, 'char_id: ' + errorMessages.b);
         }
@@ -151,7 +151,7 @@ exec(`wc -l < ${input}`, (error, results) => { //Total number of lines
       } else {
         console.log('--> No data validation errors found!');
       }
-      console.log(`\n \x1b[36m" ::: Load characteristics process complete! :::
+      console.log(`\n \x1b[36m ::: Load characteristics process complete! :::
         Total chunks: ${totalChunks}
         Lines processed (lines chunked/total lines): ${totalLinesChunked - errorCount - 1} / ${lineCounter - 1}`);
     };
