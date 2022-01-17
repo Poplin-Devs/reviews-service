@@ -5,4 +5,7 @@ server/config.js
 
 database/ETL/data/
 database/ETL/results/
+database/ETL/old/
+
 database/config.js
+database/schemas/sql-workshop.sql

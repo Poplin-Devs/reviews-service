@@ -18,14 +18,16 @@ API endpoints here
 
 # **data model**
 
-current version: 2.0, 1/11/22
+current version: 3.0, 1/17/22
 
-![Data Model version 2](./data_models/sql-modelv2.png)
+![Data Model version 2](./data_models/sql-modelv5.png)
 
 Version History
+- [v 2.0][version1] 1/11/22
 - [v 1.0][version1] 1/10/22
 
 [version1]: ./data_models/sql-modelv1.png
+[version2]: ./data_models/sql-modelv4.png
 
 # **ETL Process**
 
