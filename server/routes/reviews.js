@@ -87,6 +87,34 @@ module.exports = {
 
       res.status(200).json(responseObject);
     });
+  },
+
+  helpful: (req, res) => {
+    console.log('\nrequest parameters: ', req.query);
+
+    const sql = '';
+
+    // db.connection.query(sql, (error, results) => {
+    //   if (error) {
+    //     res.status(400).send(error);
+    //   }
+
+    //   console.log(results);
+
+    //   res.status(200).json(responseObject);
+    // });
+  },
+
+  report: (req, res) => {
+    console.log('\nrequest parameters: ', req.params);
+    const { review_id } = req.params;
+
+    const sql = `UPDATE reviews SET reported = (1) WHERE review_id = ${review_id}`;
+
+    db.connection.query(sql, (error, results) => {
+      if (error) { res.status(400).send(error); }
+      res.status(204).send();
+    });
   }
 
 };
