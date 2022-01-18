@@ -22,9 +22,8 @@ The API is outlined below:
 
 > ### **List Reviews**
 >`GET /reviews`
-
 >| Parameter | Type | Description |
->| --------- | ---- | ----------- |
+>|:---------:|:----:|:-----------:|
 >| page | integer | Selects the page of results >to return. Default 1. |
 >|count|integer|Specifies how many results per >page to return. Default 5.|
 >|sort|text|Changes the sort order of reviews to >be based on "newest", "helpful", or "relevant"|
