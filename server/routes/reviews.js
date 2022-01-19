@@ -76,21 +76,77 @@ module.exports = {
       };
       res.status(200).json(responseObject);
     });
-
   },
 
   addReview: (req, res) => {
     let { product_id, rating, summary, body, recommend, name, email, photos, characteristics } = req.query;
+    recommend === 'true' ? recommend = 1 : recommend = 0;
+    characteristics = JSON.parse(characteristics);
+    photos = JSON.parse(photos);
 
-    const sql = '';
+    let insertPhotos = false;
+    if (photos.length > 0) { insertPhotos = true; }
 
-    db.connection.query(sql, (error, results) => {
-      if (error) {
-        res.status(400).send(error);
-      }
+    const charsValues = [
+      [product_id, 'Size'],
+      [product_id, 'Width'],
+      [product_id, 'Comfort'],
+      [product_id, 'Quality'],
+      [product_id, 'Length'],
+      [product_id, 'Fit']
+    ];
 
-      res.status(201).send();
+    const sqlInsertUser = `INSERT INTO users (name, email) values ('${name}', '${email}') \
+    ON DUPLICATE KEY UPDATE name='${name}', email='${email}'`;
+    db.connection.query(sqlInsertUser, (error, results) => { //Insert new user
+      if (error) { res.status(400).send(error); }
+
+      const sqlGetUserId = `SELECT user_id FROM users WHERE name='${name}' LIMIT 1`;
+      db.connection.query(sqlGetUserId, (error, userIdResult) => { //Get user_id
+        if (error) { res.status(400).send(error); }
+
+        const sqlInsertReview = `INSERT INTO reviews (product_id, rating, summary, recommend, body, response, reviewer_id) \
+        VALUES (${product_id},${rating},${summary},${recommend},${body},null,${userIdResult[0].user_id})`;
+        db.connection.query(sqlInsertReview, (error, insertReviewResult) => { //Insert review
+          if (error) { res.status(400).send(error); }
+
+          const newReviewId = insertReviewResult.insertId;
+
+          const sqlInsertChars = 'INSERT INTO chars (product_id, name) VALUES ?';
+          db.connection.query(sqlInsertChars, [charsValues], (error, charsResult) => { //Insert chars
+            if (error) { res.status(400).send(error); }
+
+            charId = charsResult.insertId;
+            const charReviewsValues = [
+              [charId, characteristics[131851], newReviewId],
+              [charId + 1, characteristics[131852], newReviewId],
+              [charId + 2, characteristics[131853], newReviewId],
+              [charId + 3, characteristics[131854], newReviewId],
+              [charId + 4, characteristics[131844], newReviewId],
+              [charId + 5, characteristics[131847], newReviewId]
+            ];
+
+            const sqlInsertCharReviews = 'INSERT INTO char_reviews (char_id, value, review_id) VALUES ?';
+            db.connection.query(sqlInsertCharReviews, [charReviewsValues], (error) => { //Insert chars
+              if (error) { res.status(400).send(error); }
+
+              if (insertPhotos) {
+                const photoValues = photos.map((photo) => {
+                  return [photo, newReviewId];
+                });
+
+                const sqlInsertPhotos = 'INSERT INTO photos (url, review_id) VALUES ?';
+                db.connection.query(sqlInsertPhotos, [photoValues], (error) => { //Insert photos
+                  if (error) { res.status(400).send(error); }
+                  res.status(201).send();
+                });
+              } else {
+                res.status(201).send();
+              }
+            });
+          });
+        });
+      });
     });
   }
-
 };
