@@ -1,0 +1,63 @@
+{
+	"id": "446caa84-c5ad-4499-816d-f388c5ace09e",
+	"values": [
+		{
+			"key": "baseurl",
+			"value": "http://localhost:8008",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomInt",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomIngverb",
+			"value": "Captivatingly",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomNoun",
+			"value": "Capital",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomLoremSentences",
+			"value": "Et sint voluptas similique iure amet perspiciatis vero sequi atque. Ut porro sit et hic. Neque aspernatur vitae fugiat ut dolore et veritatis. Ab iusto ex delectus animi. Voluptates nisi iusto. Impedit quod quae voluptate qui.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomBoolean",
+			"value": "true",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomUserName",
+			"value": "awilduser",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomEmail",
+			"value": "email@emailz.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "$randomFashionImage",
+			"value": "http://placeimg.com/640/480/fashion",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2022-01-20T03:37:52.162Z",
+	"_postman_exported_using": "Postman/9.9.3"
+}

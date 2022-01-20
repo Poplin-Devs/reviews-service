@@ -1,0 +1,268 @@
+{
+	"info": {
+		"_postman_id": "30091cfa-adb9-4677-a74c-a3c5bb10882d",
+		"name": "SDC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Specific Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/reviews?product_id={{$randomInt}}&rating=5&summary='{{$randomIngverb}} {{$randomNoun}}'&body='{{$randomLoremSentences}}'&recommend={{$randomBoolean}}&name={{$randomUserName}}&email={{$randomEmail}}&photos=[\"{{$randomFashionImage}}\", \"{{$randomFashionImage}}\"]&characteristics={\"131844\": 1,\"131847\": 2,\"131851\": 3,\"131852\": 4,\"131853\": 5,\"131854\": 6}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "product_id",
+							"value": "{{$randomInt}}",
+							"description": "int"
+						},
+						{
+							"key": "rating",
+							"value": "5",
+							"description": "int 1-5"
+						},
+						{
+							"key": "summary",
+							"value": "'{{$randomIngverb}} {{$randomNoun}}'",
+							"description": "string"
+						},
+						{
+							"key": "body",
+							"value": "'{{$randomLoremSentences}}'",
+							"description": "string"
+						},
+						{
+							"key": "recommend",
+							"value": "{{$randomBoolean}}",
+							"description": "bool"
+						},
+						{
+							"key": "name",
+							"value": "{{$randomUserName}}",
+							"description": "string"
+						},
+						{
+							"key": "email",
+							"value": "{{$randomEmail}}",
+							"description": "string"
+						},
+						{
+							"key": "photos",
+							"value": "[\"{{$randomFashionImage}}\", \"{{$randomFashionImage}}\"]",
+							"description": "array of urls"
+						},
+						{
+							"key": "characteristics",
+							"value": "{\"131844\": 1,\"131847\": 2,\"131851\": 3,\"131852\": 4,\"131853\": 5,\"131854\": 6}",
+							"description": "object of keys"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Specific Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});",
+							"",
+							"let jsonResponse = pm.response.json();",
+							"",
+							"pm.test(\"Response body should be in the correct format\", function() {",
+							"    jsonResponse.results.forEach((result) => {",
+							"        pm.expect(result.review_id).to.be.a('number');",
+							"        pm.expect(result.rating).to.be.a('number');",
+							"        pm.expect(result.summary).to.be.a('string');",
+							"        pm.expect(result.recommend).to.be.a('boolean');",
+							"        pm.expect(result.body).to.be.a('string');",
+							"        pm.expect(result.date).to.be.a('string');",
+							"        pm.expect(result.reviewer_name).to.be.a('string');",
+							"        pm.expect(result.helpfulness).to.be.a('number');",
+							"        pm.expect(result.photos).to.be.a('array');",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/reviews?product_id=1",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"reviews"
+					],
+					"query": [
+						{
+							"key": "product_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Meta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 6000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+							"});",
+							"",
+							"let jsonResponse = pm.response.json();",
+							"",
+							"pm.test(\"Response body should be in the correct format\", function() {",
+							"    pm.expect(jsonResponse.product_id).to.be.a('string');",
+							"    pm.expect(jsonResponse.ratings).to.be.a('object');",
+							"    pm.expect(jsonResponse.recommended).to.be.a('object');",
+							"    pm.expect(jsonResponse.characteristics).to.be.a('object');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/reviews/meta?product_id=5",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"reviews",
+						"meta"
+					],
+					"query": [
+						{
+							"key": "product_id",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Report Review",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/reviews/1/report",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"reviews",
+						"1",
+						"report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Helpful Review",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/reviews/1/report",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"reviews",
+						"1",
+						"report"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
