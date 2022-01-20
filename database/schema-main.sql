@@ -10,5 +10,9 @@ source /Users/andrewcarnero/Dropbox/HR/aSDC/reviews-service/database/schemas/pho
 
 source /Users/andrewcarnero/Dropbox/HR/aSDC/reviews-service/database/schemas/users.sql;
 
---config tables
+-- config tables
 source /Users/andrewcarnero/Dropbox/HR/aSDC/reviews-service/database/schemas/config-tables.sql;
+
+-- clear records made from API tests
+
+source /Users/andrewcarnero/Dropbox/HR/aSDC/reviews-service/database/schemas/clear-request-mods.sql;
