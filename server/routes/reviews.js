@@ -41,9 +41,10 @@ module.exports = {
       let reviewObject = {};
 
       selectedReviews.forEach((review) => {
-        const { review_id, rating, summary, response, body, review_date, name, helpfulness, id, url } = review;
-        let { recommend } = review;
+        const { review_id, rating, summary, body, review_date, name, helpfulness, id, url } = review;
+        let { recommend, response } = review;
         recommend.toJSON().data[0] === 0 ? recommend = false : recommend = true;
+        if (response === null) { response = ''; }
 
         if (reviewObject['review_id'] !== review_id) { reviewObject = {}; }
 
@@ -79,10 +80,12 @@ module.exports = {
   },
 
   addReview: (req, res) => {
-    let { product_id, rating, summary, body, recommend, name, email, photos, characteristics } = req.query;
+    let { product_id, rating, summary, body, recommend, name, email, photos, characteristics } = req.body;
     recommend === 'true' ? recommend = 1 : recommend = 0;
-    characteristics = JSON.parse(characteristics);
-    photos = JSON.parse(photos);
+    summary = escapeSpecialChars(summary);
+    body = escapeSpecialChars(body);
+    name = escapeSpecialChars(name);
+    email = escapeSpecialChars(email);
 
     let insertPhotos = false;
     if (photos.length > 0) { insertPhotos = true; }
@@ -106,10 +109,9 @@ module.exports = {
         if (error) { res.status(400).send(error); }
 
         const sqlInsertReview = `INSERT INTO reviews (product_id, rating, summary, recommend, body, response, reviewer_id) \
-        VALUES (${product_id},${rating},${summary},${recommend},${body},null,${userIdResult[0].user_id})`;
+        VALUES (${product_id},${rating},'${summary}',${recommend},'${body}',null,${userIdResult[0].user_id})`;
         db.connection.query(sqlInsertReview, (error, insertReviewResult) => { //Insert review
           if (error) { res.status(400).send(error); }
-
           const newReviewId = insertReviewResult.insertId;
 
           const sqlInsertChars = 'INSERT INTO chars (product_id, name) VALUES ?';
@@ -149,4 +151,22 @@ module.exports = {
       });
     });
   }
+};
+
+const specialCharacterMap = {
+  '&': '',
+  '<': '',
+  '>': '',
+  '"': '\\"',
+  // eslint-disable-next-line quotes
+  "'": "\\'",
+  '/': '',
+  '`': '',
+  '=': '',
+};
+
+const escapeSpecialChars = (string) => {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return specialCharacterMap[s];
+  });
 };

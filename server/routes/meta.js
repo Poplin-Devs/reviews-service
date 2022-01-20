@@ -17,7 +17,7 @@ module.exports = {
           recommends.forEach((recommend) => {
             recommend.recommend = 0 ? falseCounter++ : trueCounter++;
           });
-          resolve({false: falseCounter, true: trueCounter});
+          resolve({false: '' + falseCounter, true: '' + trueCounter});
         });
       });
     };
@@ -32,9 +32,9 @@ module.exports = {
           const ratingsObject = {};
           ratings.forEach(({rating}) => {
             if (!ratingsObject[rating]) {
-              ratingsObject[rating] = 1;
+              ratingsObject[rating] = '' + 1;
             } else {
-              ratingsObject[rating] = ratingsObject[rating] + 1;
+              ratingsObject[rating] = '' + ratingsObject[rating] + 1;
             }
           });
           resolve(ratingsObject);

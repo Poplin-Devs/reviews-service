@@ -6,6 +6,8 @@ const routes = require('./routes');
 
 const port = 8008;
 
+app.use(express.json());
+
 app.get('/reviews', (req, res) => {
   routes.reviews.getReviews(req, res);
 });
