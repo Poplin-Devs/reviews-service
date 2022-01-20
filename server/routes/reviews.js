@@ -55,7 +55,7 @@ module.exports = {
           reviewObject['response'] = response;
           reviewObject['body'] = body;
           reviewObject['date'] = review_date;
-          reviewObject['name'] = name;
+          reviewObject['reviewer_name'] = name;
           reviewObject['helpfulness'] = helpfulness;
           if (id) {
             reviewObject['photos'] = [ { id: id, url: url } ];
