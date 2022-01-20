@@ -9,3 +9,5 @@ database/ETL/old/
 
 database/config.js
 database/schemas/sql-workshop.sql
+
+test/perf-tuning/

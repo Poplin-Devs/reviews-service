@@ -90,7 +90,7 @@ Version History
 [version2]: ./data_models/sql-modelv2.png
 [version1]: ./data_models/sql-modelv1.png
 
-# **ETL Process**
+# **ETL process**
 
 After building the new back end architecture, existing data had to be migrated over.
 
@@ -107,10 +107,21 @@ A custom-built extract, transform, load process was built first using only Bash 
 - node.js (native modules: filesystem, readline, and npm module mysql2) was used to create a read stream to build bulk mySQL queries. Inserting 5,000 values per query was quick to transform and quick to load.
 - [Insert Data Points] Final load rate was 36k records inserted per second (12 fields)
 
+# **db & server performance tuning**
+
+The Reviews service utilizes 12 queries to obtain response data for all of the request endpoints.
+- In their first iteration, two read queries, naturally the most complex queries, were majorly problematic: `GET /reviews` and `GET /reviews/meta`.
+- Respectively, these queries took, on average, 5.2 and 5.7 seconds to complete.
+- After indexing selected columns in certain tables, these queries, along with all other queries in the service, respond on average within 1 second.
+- Data from the query tests before and after indexing changes is displayed below:
+
+![Local query performance metrics data](./metrics/local-query-perf-tuning-metrics.png)
+
 # **technologies**
 
 - built using node.js
   - node modules: filesystem, readline, mysql2
+- mysql CLI
 - server built with Express
 
 > TO UPDATE:
