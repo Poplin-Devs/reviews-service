@@ -14,6 +14,19 @@ The reviews service is designed using a an Express server and a mySQL database.
 
 </div>
 
+# **installation**
+
+Fork and clone the project repository. In the cloned repository:
+1. `npm i` to install project dependencies.
+2. Run the `npm start` script to bring the server online.
+
+Testing Dependencies:
+- API Testing via Artillery
+  1. Install the Artillery CLI `npm install -g artillery@latest` OR for Docker container/Docker images: `RUN npm install -g artillery` making sure the installation is not run as the `root` user.
+  2. Check Artillery is installed: `artillery dino` (result should be an ASCII dinosaur printed to the terminal).
+  3. Install the Artillery publish-metrics plugin: `npm install -g artillery-plugin-publish-metrics`
+  4. From the `/test/scenarios/` directory, to run tests: `artillery run -e staging test-name.yml`
+
 # **reviews API**
 
 The shape of result data was to maintain the  shape of data as was originally returned in the previous API.

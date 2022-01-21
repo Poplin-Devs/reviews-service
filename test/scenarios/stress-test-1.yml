@@ -8,8 +8,8 @@ config:
     staging:
       target: "http://127.0.0.1:8008"
       phases:
-        - duration: 120
-          arrivalRate: 10
+        - duration: 60
+          arrivalRate: 1
   payload:
     -
       path: "./payloads/payload-master.csv"
@@ -32,47 +32,25 @@ config:
     p95: 200
     maxErrorRate: 10
 scenarios:
-  - name: "browse and helpful-report"
-    flow:
-      - log: "Current environment is set to: {{ $environment }}"
-      - get:
-          url: "/reviews?product_id={{ productid }}"
-          capture:
-            - json: "$.product"
-              as: "product1"
-      - get:
-          url: "/reviews/meta?product_id={{ product1 }}"
-        -put:
-          url: "/reviews/{{product1}}/helpful"
-      - think: 4
-      - get:
-          url: "/reviews?product_id={{ productid }}"
-          capture:
-            - json: "$.product"
-              as: "product2"
-      - get:
-          url: "/reviews/meta?product_id={{ product2 }}"
-        -put:
-          url: "/reviews/{{product2}}/helpful"
-  - name: "browse and post"
+  - name: "single endpoint testing"
     flow:
       - get:
           url: "/reviews?product_id={{ productid }}"
-          capture:
-            - json: "$.product"
-              as: "product1"
-      - get:
-          url: "/reviews/meta?product_id={{ product1 }}"
-      - think: 5
-      - post:
-            url: "/reviews"
-            json:
-              product_id: "{{ productid }}"
-              rating: "{{ rating }}"
-              summary: "{{ summary }}"
-              body: "{{ body }}"
-              recommend: "{{ boolean }}"
-              name: "{{ name }}"
-              email: "{{ email }}"
-              photos: [ https://tinyurl.com/yy9826fb ]
-              characteristics: { '131844':2,'131847':1,'131851':4,'131852':4,'131853':3,'131854':2 }
+      # - get:
+      #     url: "/reviews/meta?product_id={{ productid }}"
+      # - put:
+      #     url: "/reviews/{{product1}}/helpful"
+      # - put:
+      #     url: "/reviews/{{product2}}/report"
+      # - post:
+      #       url: "/reviews"
+      #       json:
+      #         product_id: "{{ productid }}"
+      #         rating: "{{ rating }}"
+      #         summary: "{{ summary }}"
+      #         body: "{{ body }}"
+      #         recommend: "{{ boolean }}"
+      #         name: "{{ name }}"
+      #         email: "{{ email }}"
+      #         photos: [ https://tinyurl.com/yy9826fb ]
+      #         characteristics: { '131844':2,'131847':1,'131851':4,'131852':4,'131853':3,'131854':2 }
