@@ -1,0 +1,56 @@
+config:
+  target: "http://127.0.0.1:8008"
+  phases:
+    - duration: 60
+      arrivalRate: 500
+      name: Sustained load - 1 rps
+  environments:
+    staging:
+      target: "http://127.0.0.1:8008"
+      phases:
+        - duration: 60
+          arrivalRate: 500
+  payload:
+    -
+      path: "./payloads/payload-master.csv"
+      fields:
+        - "summary"
+        - "body"
+        - "reviewid"
+        - "productid"
+        - "photosBad"
+        - "boolean"
+        - "email"
+        - "charsBad"
+        - "name"
+      skipHeader: true
+    -
+      path: "./payloads/payload-ratings.csv"
+      fields:
+      - "rating"
+  ensure:
+    p95: 200
+    maxErrorRate: 10
+scenarios:
+  - name: "single endpoint testing"
+    flow:
+      - get:
+          url: "/reviews?product_id={{ productid }}"
+      # - get:
+      #     url: "/reviews/meta?product_id={{ productid }}"
+      # - put:
+      #     url: "/reviews/{{product1}}/helpful"
+      # - put:
+      #     url: "/reviews/{{product2}}/report"
+      # - post:
+      #       url: "/reviews"
+      #       json:
+      #         product_id: "{{ productid }}"
+      #         rating: "{{ rating }}"
+      #         summary: "{{ summary }}"
+      #         body: "{{ body }}"
+      #         recommend: "{{ boolean }}"
+      #         name: "{{ name }}"
+      #         email: "{{ email }}"
+      #         photos: [ https://tinyurl.com/yy9826fb ]
+      #         characteristics: { '131844':2,'131847':1,'131851':4,'131852':4,'131853':3,'131854':2 }
