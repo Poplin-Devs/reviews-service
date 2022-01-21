@@ -11,3 +11,11 @@ database/config.js
 database/schemas/sql-workshop.sql
 
 test/perf-tuning/
+test/scenarios/payloads/payload-body.csv
+test/scenarios/payloads/payload-bool.csv
+test/scenarios/payloads/payload-emails.csv
+test/scenarios/payloads/payload-productionids.csv
+test/scenarios/payloads/payload-ratings.csv
+test/scenarios/payloads/payload-reviewids.csv
+test/scenarios/payloads/payload-summary.csv
+test/scenarios/payloads/payload-usernames.csv

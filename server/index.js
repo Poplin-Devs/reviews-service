@@ -21,11 +21,11 @@ app.get('/reviews/meta', (req, res) => {
 });
 
 app.put('/reviews/:review_id/helpful', (req, res) => {
-  routes.reviewId.helpful(req, res);
+  routes.puts.helpful(req, res);
 });
 
 app.put('/reviews/:review_id/report', (req, res) => {
-  routes.reviewId.report(req, res);
+  routes.puts.report(req, res);
 });
 
 app.listen(port, () => { console.log(`Listening at http://localhost:${port}`); });

@@ -1,0 +1,88 @@
+config:
+  target: "http://127.0.0.1:8008"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      name: Sustained load - 10 rps
+  environments:
+    staging:
+      target: "http://127.0.0.1:8008"
+      phases:
+        - duration: 120
+          arrivalRate: 10
+  payload:
+    -
+      path: "./payloads/payload-master.csv"
+      fields:
+        - "summary"
+        - "body"
+        - "reviewid"
+        - "productid"
+        - "photosBad"
+        - "boolean"
+        - "email"
+        - "charsBad"
+        - "name"
+      skipHeader: true
+    -
+      path: "./payloads/payload-ratings.csv"
+      fields:
+      - "rating"
+    -
+      path: "./payloads/payload-photos.csv"
+      delimiter: "|"
+      fields:
+      - "photos"
+    -
+      path: "./payloads/payload-chars.csv"
+      delimiter: "|"
+      fields:
+      - "chars"
+  ensure:
+    p95: 200
+    maxErrorRate: 10
+scenarios:
+  - name: "browse and helpful-report"
+    flow:
+      - log: "Current environment is set to: {{ $environment }}"
+      - get:
+          url: "/reviews?product_id={{ productid }}"
+          capture:
+            - json: "$.product"
+              as: "product1"
+      - get:
+          url: "/reviews/meta?product_id={{ product1 }}"
+        -put:
+          url: "/reviews/{{product1}}/helpful"
+      - think: 4
+      - get:
+          url: "/reviews?product_id={{ productid }}"
+          capture:
+            - json: "$.product"
+              as: "product2"
+      - get:
+          url: "/reviews/meta?product_id={{ product2 }}"
+        -put:
+          url: "/reviews/{{product2}}/helpful"
+  - name: "post"
+    flow:
+      - get:
+          url: "/reviews?product_id={{ productid }}"
+          capture:
+            - json: "$.product"
+              as: "product1"
+      - get:
+          url: "/reviews/meta?product_id={{ product1 }}"
+      - think: 5
+      - post:
+            url: "/reviews"
+            json:
+              product_id: "{{ productid }}"
+              rating: "{{ rating }}"
+              summary: "{{ summary }}"
+              body: "{{ body }}"
+              recommend: "{{ boolean }}"
+              name: "{{ name }}"
+              email: "{{ email }}"
+              photos: [ https://tinyurl.com/yy9826fb ]
+              characteristics: { '131844':2,'131847':1,'131851':4,'131852':4,'131853':3,'131854':2 }
