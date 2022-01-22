@@ -2,8 +2,15 @@ config:
   target: "http://127.0.0.1:8008"
   phases:
     - duration: 60
-      arrivalRate: 1
-      name: Sustained load - 1 rps
+      arrivalRate: 5
+      name: Warm up
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    - duration: 300
+      arrivalRate: 50
+      name: Sustained load
   environments:
     staging:
       target: "http://127.0.0.1:8008"
@@ -34,7 +41,6 @@ config:
 scenarios:
   - name: "browse and helpful-report"
     flow:
-      - log: "Current environment is set to: {{ $environment }}"
       - get:
           url: "/reviews?product_id={{ productid }}"
           capture:
@@ -42,7 +48,7 @@ scenarios:
               as: "product1"
       - get:
           url: "/reviews/meta?product_id={{ product1 }}"
-      -put:
+      - put:
           url: "/reviews/{{product1}}/helpful"
       - think: 4
       - get:
@@ -52,7 +58,7 @@ scenarios:
               as: "product2"
       - get:
           url: "/reviews/meta?product_id={{ product2 }}"
-      -put:
+      - put:
           url: "/reviews/{{product2}}/helpful"
   - name: "browse and post"
     flow:

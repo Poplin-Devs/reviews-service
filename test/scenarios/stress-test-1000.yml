@@ -34,23 +34,23 @@ config:
 scenarios:
   - name: "single endpoint testing"
     flow:
-      - get:
-          url: "/reviews?product_id={{ productid }}"
+      # - get:
+      #     url: "/reviews?product_id={{ productid }}"
       # - get:
       #     url: "/reviews/meta?product_id={{ productid }}"
       # - put:
       #     url: "/reviews/{{product1}}/helpful"
       # - put:
       #     url: "/reviews/{{product2}}/report"
-      # - post:
-      #       url: "/reviews"
-      #       json:
-      #         product_id: "{{ productid }}"
-      #         rating: "{{ rating }}"
-      #         summary: "{{ summary }}"
-      #         body: "{{ body }}"
-      #         recommend: "{{ boolean }}"
-      #         name: "{{ name }}"
-      #         email: "{{ email }}"
-      #         photos: [ https://tinyurl.com/yy9826fb ]
-      #         characteristics: { '131844':2,'131847':1,'131851':4,'131852':4,'131853':3,'131854':2 }
+      - post:
+            url: "/reviews"
+            json:
+              product_id: "{{ productid }}"
+              rating: "{{ rating }}"
+              summary: "{{ summary }}"
+              body: "{{ body }}"
+              recommend: "{{ boolean }}"
+              name: "{{ name }}"
+              email: "{{ email }}"
+              photos: [ https://tinyurl.com/yy9826fb ]
+              characteristics: { '131844':2,'131847':1,'131851':4,'131852':4,'131853':3,'131854':2 }

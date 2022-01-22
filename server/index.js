@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const router = require('express').Router();
-const routes = require('./routes');
+const routes = require('./routes.js');
 
 const port = 8008;
 

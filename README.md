@@ -122,6 +122,8 @@ A custom-built extract, transform, load process was built first using only Bash 
 
 # **db & server performance tuning**
 
+## **database**
+
 The Reviews service utilizes 12 queries to obtain response data for all of the request endpoints.
 - In their first iteration, two read queries, naturally the most complex queries, were majorly problematic: `GET /reviews` and `GET /reviews/meta`.
 - Respectively, these queries took, on average, 5.2 and 5.7 seconds to complete.
@@ -129,6 +131,13 @@ The Reviews service utilizes 12 queries to obtain response data for all of the r
 - Data from the query tests before and after indexing changes is displayed below:
 
 ![Local query performance metrics data](./metrics/local-query-perf-tuning-metrics.png)
+
+## **api service**
+
+[Description here]
+
+![Local api service stress test results](./metrics/local-api-service-stress-testing.png)
+
 
 # **technologies**
 
