@@ -6,6 +6,7 @@ The reviews service is designed using a an Express server and a mySQL database.
 
 <div align="center">
 
+[installation](#installation) |
 [reviews API](#reviews-api) |
 [data model](#data-model) |
 [ETL process](#etl-process) |
@@ -90,9 +91,9 @@ The API is outlined below:
 
 # **data model**
 
-final version: 4.0, 1/17/22
+Final version: 4.0, 1/17/22
 
-![Data Model version 4](./data_models/sql-modelv4.png)
+![Data Model version 4](./resources/data-models/sql-modelv4.png)
 
 Version History
 - [v 3.0][version2] 1/12/22
@@ -119,6 +120,9 @@ A custom-built extract, transform, load process was built first using only Bash 
 - Bash was a fine solution to split up the .CSV files by line but beyond that, required too much time to build and optimize.
 - node.js (native modules: filesystem, readline, and npm module mysql2) was used to create a read stream to build bulk mySQL queries. Inserting 5,000 values per query was quick to transform and quick to load.
 - [Insert Data Points] Final load rate was 36k records inserted per second (12 fields)
+
+![Screenshot of ETL load script complete in the command line interface](./resources/load-script-ss.png)
+
 
 # **db & server performance tuning**
 
