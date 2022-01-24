@@ -60,13 +60,14 @@ Server endpoints are defined and routed to request handlers using Express.
 > ### **List Reviews**
 >Returns a list of reviews for a particular product. This list does not include any reported reviews.  \
 >`GET /reviews`
+>
 >| Parameter | Type | Description |
 >|:---------:|:----:|:-----------:|
 >| page | integer | Selects the page of results >to return. Default 1. |
 >|count|integer|Specifies how many results per >page to return. Default 5.|
 >|sort|text|Changes the sort order of reviews to >be based on "newest", "helpful", or "relevant"|
 >|product_id|integer|Specifies the product for which to retrieve reviews.|
-
+>
 >`Response: 200 OK`
 
 <details>
@@ -121,12 +122,12 @@ Server endpoints are defined and routed to request handlers using Express.
 
 > ### **Review Metadata**
 >Gets a review metadata for the specified product.  \
-<br>
+>
 >`GET /reviews/meta`
 >| Parameter | Type | Description |
 >|:---------:|:----:|:-----------:|
 >|product_id|integer|Required ID of the product for which data should be returned.|
-
+>
 >`Response: 200 OK`
 
 <details>
@@ -167,7 +168,7 @@ Server endpoints are defined and routed to request handlers using Express.
 
 > ### **Add a New Review**
 >Adds a review for the specified product.  \
-<br>
+>
 >`POST /reviews`
 >| Parameter | Type | Description |
 >|:---------:|:----:|:-----------:|
@@ -187,24 +188,24 @@ Server endpoints are defined and routed to request handlers using Express.
 
 > ### **Mark Review Helpful**
 >Updates a review to show it was found helpful.  \
-<br>
+>
 >`POST /reviews`
 >| Parameter | Type | Description |
 >|:---------:|:----:|:-----------:|
 >|review_id|integer|Required ID of the review to update|
-
+>
 >`Response: 204 NO CONTENT`
 
 <br>
 
 > ### **Report a Review**
 >Updates a review to show it was reported. Note, this action does not delete the review, but the review will not be returned in the above GET request.  \
-<br>
+>
 >`POST /reviews`
 >| Parameter | Type | Description |
 >|:---------:|:----:|:-----------:|
 >|review_id|integer|Required ID of the review to update|
-
+>
 >`Response: 204 NO CONTENT`
 
 <br>
