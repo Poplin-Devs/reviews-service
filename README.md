@@ -58,7 +58,7 @@ The shape of result data was required to match the shape of data as was original
 Server endpoints are defined and routed to request handlers using Express.
 
 > ### **List Reviews**
->Returns a list of reviews for a particular product. This list does not include any reported reviews.  \
+>Returns a list of reviews for a particular product. This list does not include any reported reviews.
 >`GET /reviews`
 >
 >| Parameter | Type | Description |
@@ -121,7 +121,7 @@ Server endpoints are defined and routed to request handlers using Express.
 <br>
 
 > ### **Review Metadata**
->Gets a review metadata for the specified product.  \
+>Gets a review metadata for the specified product.
 >
 >`GET /reviews/meta`
 >| Parameter | Type | Description |
@@ -167,7 +167,7 @@ Server endpoints are defined and routed to request handlers using Express.
 <br>
 
 > ### **Add a New Review**
->Adds a review for the specified product.  \
+>Adds a review for the specified product.
 >
 >`POST /reviews`
 >| Parameter | Type | Description |
@@ -187,7 +187,7 @@ Server endpoints are defined and routed to request handlers using Express.
 <br>
 
 > ### **Mark Review Helpful**
->Updates a review to show it was found helpful.  \
+>Updates a review to show it was found helpful.
 >
 >`POST /reviews`
 >| Parameter | Type | Description |
@@ -199,7 +199,7 @@ Server endpoints are defined and routed to request handlers using Express.
 <br>
 
 > ### **Report a Review**
->Updates a review to show it was reported. Note, this action does not delete the review, but the review will not be returned in the above GET request.  \
+>Updates a review to show it was reported. Note, this action does not delete the review, but the review will not be returned in the above GET request.
 >
 >`POST /reviews`
 >| Parameter | Type | Description |
@@ -233,18 +233,14 @@ Server endpoints are defined and routed to request handlers using Express.
 
 The following preexisting data had to be ingested into the new back end architecture:
 
-<div align="center">
-
 | Table | Fields | Records |
-| ----- | ------ | ------------ |
+|:----- | ------ | ------------ |
 | Photos | 3     | 2,742,832    |
 | Users  | 3     | 3,620,848    |
 | Chars | 3      | 3,347,478    |
 | Reviews | 11   | 5,777,922    |
 | Char_Reviews | 4 | 19,337,415 |
 | Total | -      | 34,826,495   |
-
-</div>
 
 A custom-built extract, transform, load process was built first using only Bash scripts and then additionally using node.
 
