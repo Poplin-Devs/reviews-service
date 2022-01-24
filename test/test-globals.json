@@ -3,7 +3,7 @@
 	"values": [
 		{
 			"key": "baseurl",
-			"value": "http://localhost:8008",
+			"value": "ec2-44-195-176-237.compute-1.amazonaws.com:8008",
 			"type": "default",
 			"enabled": true
 		},
