@@ -59,8 +59,8 @@ Server endpoints are defined and routed to request handlers using Express.
 
 > ### **List Reviews**
 >Returns a list of reviews for a particular product. This list does not include any reported reviews.
->`GET /reviews`
 >
+>`GET /reviews`
 >| Parameter | Type | Description |
 >|:---------:|:----:|:-----------:|
 >| page | integer | Selects the page of results >to return. Default 1. |
